@@ -1,0 +1,6 @@
+bokeh==1.4.0
+ipywidgets==5.5.0
+matplotlib=2.4.7
+google-cloud-storage==1.0.3
+google-colab==1.0.0
+pandas==1.0.5
