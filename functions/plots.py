@@ -35,12 +35,12 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
             p = figure(
               plot_width=width, plot_height=height,
               title=title,
-              title_text_font_size="10pt",
               x_axis_label=x_name,
-              x_axis_label_text_font_size="5pt",
               y_axis_label=y_name,
-              y_axis_label_text_font_size="5pt"
             )
+            p.title.text_font_size="10px"
+            p.xaxis.axis_label_text_font_size = "10px"
+            p.yaxis.axis_label_text_font_size = "10px"
             p.line(x=x_name, y=y_name, source=raw_data_source)
             plots.append(p)
 
