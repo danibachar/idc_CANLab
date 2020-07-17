@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 import os, random, string
+from datetime import datetime
+
+from .consts import *
 
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
@@ -34,3 +37,12 @@ def get_random_string(length):
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(length))
     print("Random string of length", length, "is:", result_str)
+
+
+def build_remote_and_local_file_names(prefix, file_type):
+    PROJECT = os.environ[consts.PROJECT_NAME_ENV_VAR]
+    USERNAME = os.environ[consts.USERNAME_ENV_VAR]
+    date_str = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
+    location = "{}/{}".format(USERNAME, PROJECT)
+    file_name = "{}_{}.{}".format(prefix, date_str, file_type)
+    return "{}/{}".format(location, file_name), file_name
