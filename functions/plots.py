@@ -2,7 +2,7 @@ from bokeh.plotting import figure, show, output_file, save
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource
 
-from .storage import upload_file
+from .core.storage import upload_file
 from .utils import chunks, build_remote_and_local_file_names
 
 def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_features, width=300, height=200):
@@ -27,7 +27,7 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
         for other_feature_name in _grid_features:
           other_feature_values = g[other_feature_name].unique()
           for of_val in other_feature_values:
-            title = group_id + "_" + feature_name + "=\n" + str(f_val) + "/\n" + other_feature_name + "=" + str(of_val)
+            title = group_id + "_" + feature_name + "=" + str(f_val) + "/" + other_feature_name + "=" + str(of_val)
             selector = (g[feature_name] == f_val) & (g[other_feature_name] == of_val)
             gg = g[selector]
             y = gg.groupby(by=[x_name])[y_name].mean().reset_index()
@@ -39,8 +39,8 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
               y_axis_label=y_name,
             )
             p.title.text_font_size="5px"
-            p.xaxis.axis_label_text_font_size = "10px"
-            p.yaxis.axis_label_text_font_size = "10px"
+            p.xaxis.axis_label_text_font_size = "5px"
+            p.yaxis.axis_label_text_font_size = "5px"
             p.line(x=x_name, y=y_name, source=raw_data_source)
             plots.append(p)
 
@@ -85,6 +85,9 @@ def plot_general_avg_grid(df, y_name, x_name, grid_features, width=200, height=2
             x_axis_label=x_name,
             y_axis_label=y_name
           )
+          p.title.text_font_size="5px"
+          p.xaxis.axis_label_text_font_size = "5px"
+          p.yaxis.axis_label_text_font_size = "5px"
           p.line(x=x_name, y=y_name, source=raw_data_source)
           plots.append(p)
 
