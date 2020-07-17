@@ -3,7 +3,7 @@ import numpy as np
 import os, random, string
 from datetime import datetime
 
-from .consts import *
+from .consts import PROJECT_NAME_ENV_VAR, USERNAME_ENV_VAR
 
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
@@ -40,8 +40,8 @@ def get_random_string(length):
 
 
 def build_remote_and_local_file_names(prefix, file_type):
-    PROJECT = os.environ[consts.PROJECT_NAME_ENV_VAR]
-    USERNAME = os.environ[consts.USERNAME_ENV_VAR]
+    PROJECT = os.environ[PROJECT_NAME_ENV_VAR]
+    USERNAME = os.environ[USERNAME_ENV_VAR]
     date_str = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
     location = "{}/{}".format(USERNAME, PROJECT)
     file_name = "{}_{}.{}".format(prefix, date_str, file_type)

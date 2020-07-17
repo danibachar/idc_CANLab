@@ -3,13 +3,13 @@ from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource
 
 from .storage import upload_file
-from .utils import chunks, build_remote_file_name
+from .utils import chunks, build_remote_and_local_file_names
 
 def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_features, width=200, height=200):
-  print("Groupping by - ",groupping_col_name)
-  print("y value by - ", y_name)
-  print("x value by - ",x_name)
-  print("feature matrix - ",grid_features)
+  # print("Groupping by - ",groupping_col_name)
+  # print("y value by - ", y_name)
+  # print("x value by - ",x_name)
+  # print("feature matrix - ",grid_features)
   groups = df.groupby(by=[groupping_col_name])
 
   plots = []
@@ -35,8 +35,11 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
             p = figure(
               plot_width=width, plot_height=height,
               title=title,
+              title_text_font_size="10pt"
               x_axis_label=x_name,
-              y_axis_label=y_name
+              x_axis_label_text_font_size="5pt",
+              y_axis_label=y_name,
+              y_axis_label_text_font_size="5pt"
             )
             p.line(x=x_name, y=y_name, source=raw_data_source)
             plots.append(p)
@@ -54,13 +57,16 @@ def plot_general_avg(df, y_name, x_name, width=200, height=200):
     title="Avarage {}".format(y_name)
   )
   p.line(x=x_name, y=y_name, source=ColumnDataSource(groupd_avg))
-  return p
+
+  remote_file_name, local_file_name = build_remote_and_local_file_names("general_avg","html")
+  output_file(local_file_name,mode='inline')
+  local_url = save(p)
+  remote_url = upload_file(local_url, remote_file_name)
+  return p, remote_url
 
 def plot_general_avg_grid(df, y_name, x_name, grid_features, width=200, height=200):
   plots = []
-  # groupd_avg = df.groupby(by=[x_name])[y_name].mean().reset_index()
   _grid_features = grid_features.copy()
-  # group_id = groupping_col_name+"="+str(g[groupping_col_name].iloc[0])
   for feature_name in _grid_features:
     feature_values = df[feature_name].unique()
     _grid_features.remove(feature_name)
@@ -81,4 +87,9 @@ def plot_general_avg_grid(df, y_name, x_name, grid_features, width=200, height=2
           )
           p.line(x=x_name, y=y_name, source=raw_data_source)
           plots.append(p)
-  return plots
+
+  remote_file_name, local_file_name = build_remote_and_local_file_names("general_avg_grid","html")
+  output_file(local_file_name,mode='inline')
+  local_url = save(gridplot(chunks(plots, len(groups))))
+  remote_url = upload_file(local_url, remote_file_name)
+  return plots, remote_url

@@ -16,18 +16,16 @@ creds = {
 }
 creds_file_name = "data.json"
 creds_location = os.getcwd() + "/" + creds_file_name
-print(creds_location)
 with open(creds_location, 'w') as fp:
   json.dump(creds, fp)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=creds_location
 
 storage_client = storage.Client()
 
-
 def upload_file(src_file_location, dst_file_name, bucket_name="outliers", is_public=True, delete_local_file=True):
     bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(name_for_bucket)
-    blob.upload_from_filename(name)
+    blob = bucket.blob(dst_file_name)
+    blob.upload_from_filename(src_file_location)
     if is_public:
         blob.make_public()
     if delete_local_file:
@@ -36,6 +34,7 @@ def upload_file(src_file_location, dst_file_name, bucket_name="outliers", is_pub
 
 def _del_file(file_name):
     try:
-        os.remove(file_name)
+        os.remove(file_name,force=True)
     except Exception as e:
+        print(e)
         pass
