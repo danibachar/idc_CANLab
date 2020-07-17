@@ -3,9 +3,9 @@ from bokeh.plotting import figure, show, output_file, save
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, CDSView, GroupFilter
 from bokeh.io import output_notebook
-import .storage
+from .storage import upload_file
 
-def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_features):
+def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_features, width=200, height=200):
   print("Groupping by - ",groupping_col_name)
   print("y value by - ", y_name)
   print("x value by - ",x_name)
@@ -28,13 +28,13 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
         for other_feature_name in _grid_features:
           other_feature_values = g[other_feature_name].unique()
           for of_val in other_feature_values:
-            title = group_id + "_" + feature_name + "=" + str(f_val) + "/" + other_feature_name + "=" + str(of_val)
+            title = group_id + "_" + feature_name + "=\n" + str(f_val) + "/\n" + other_feature_name + "=" + str(of_val)
             selector = (g[feature_name] == f_val) & (g[other_feature_name] == of_val)
             gg = g[selector]
             y = gg.groupby(by=[x_name])[y_name].mean().reset_index()
             raw_data_source = ColumnDataSource(y)
             p = figure(
-              plot_width=400, plot_height=400,
+              plot_width=width, plot_height=height,
               title=title,
               x_axis_label=x_name,
               y_axis_label=y_name
@@ -42,19 +42,21 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
             p.line(x=x_name, y=y_name, source=raw_data_source)
             plots.append(p)
 
-    
-  return plots
+  date_str = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
+  output_file("test1.html",mode='inline')
+  url = save(gridplot(utils.chunks(pls, 2)))
+  return plots, url
 
-def plot_general_avg(df, y_name, x_name):
+def plot_general_avg(df, y_name, x_name, width=200, height=200):
   groupd_avg = df.groupby(by=[x_name])[y_name].mean().reset_index()
   p = figure(
-    plot_width=400, plot_height=400,
+    plot_width=width, plot_height=height,
     title="Avarage {}".format(y_name)
   )
   p.line(x=x_name, y=y_name, source=ColumnDataSource(groupd_avg))
   return p
 
-def plot_general_avg_grid(df, y_name, x_name, grid_features):
+def plot_general_avg_grid(df, y_name, x_name, grid_features, width=200, height=200):
   plots = []
   # groupd_avg = df.groupby(by=[x_name])[y_name].mean().reset_index()
   _grid_features = grid_features.copy()
@@ -72,7 +74,7 @@ def plot_general_avg_grid(df, y_name, x_name, grid_features):
           y = gg.groupby(by=[x_name])[y_name].mean().reset_index()
           raw_data_source = ColumnDataSource(y)
           p = figure(
-            plot_width=400, plot_height=400,
+            plot_width=width, plot_height=height,
             title=title,
             x_axis_label=x_name,
             y_axis_label=y_name
