@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import os
 
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
@@ -19,3 +20,12 @@ def anti_join_all_cols(x, y):
     """Return rows in x which are not present in y"""
     assert set(x.columns.values) == set(y.columns.values)
     return anti_join(x, y, x.columns.tolist())
+
+
+def list_all_files_in_dir(root):
+    files = []
+    for (dirpath, dirnames, filenames) in os.walk(root):
+        for filename in filenames:
+            files.append(os.path.join(dirpath, filename))
+
+    return files

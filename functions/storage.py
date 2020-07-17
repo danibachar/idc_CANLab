@@ -14,17 +14,17 @@ creds = {
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/storage-manager%40tranquil-sunup-283012.iam.gserviceaccount.com"
 }
-  creds_file_name = "data.json"
-  creds_location = os.getcwd() + "/" + creds_file_name
-  print(creds_location)
-  with open(creds_location, 'w') as fp:
-      json.dump(creds, fp)
-  os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=creds_location
+creds_file_name = "data.json"
+creds_location = os.getcwd() + "/" + creds_file_name
+print(creds_location)
+with open(creds_location, 'w') as fp:
+  json.dump(creds, fp)
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=creds_location
 
 storage_client = storage.Client()
 
 
 def upload_file(src_file_location, dst_file_name, bucket_name="outliers", is_public=True):
     bucket = storage_client.bucket(bucket_name)
-     blob = bucket.blob(name_for_bucket)
-     blob.upload_from_filename(name)
+    blob = bucket.blob(name_for_bucket)
+    blob.upload_from_filename(name)
