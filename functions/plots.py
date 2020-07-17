@@ -1,9 +1,11 @@
-import bokeh.plotting
 from bokeh.plotting import figure, show, output_file, save
 from bokeh.layouts import gridplot
-from bokeh.models import ColumnDataSource, CDSView, GroupFilter
-from bokeh.io import output_notebook
+from bokeh.models import ColumnDataSource
+
+from datetime import datetime
+
 from .storage import upload_file
+from .utils import chunks
 
 def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_features, width=200, height=200):
   print("Groupping by - ",groupping_col_name)
@@ -13,7 +15,6 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
   groups = df.groupby(by=[groupping_col_name])
 
   plots = []
-
   for group in groups:
     g = group[-1]
     _grid_features = grid_features.copy()
@@ -44,7 +45,7 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
 
   date_str = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
   output_file("test1.html",mode='inline')
-  url = save(gridplot(utils.chunks(pls, 2)))
+  local_url = save(gridplot(chunks(plots, len(groups))))
   return plots, url
 
 def plot_general_avg(df, y_name, x_name, width=200, height=200):

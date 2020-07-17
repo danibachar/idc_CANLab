@@ -24,7 +24,18 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=creds_location
 storage_client = storage.Client()
 
 
-def upload_file(src_file_location, dst_file_name, bucket_name="outliers", is_public=True):
+def upload_file(src_file_location, dst_file_name, bucket_name="outliers", is_public=True, delete_local_file=True):
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(name_for_bucket)
     blob.upload_from_filename(name)
+    if is_public:
+        blob.make_public()
+    if delete_local_file:
+        _del_file(src_file_location)
+    return blob.public_url
+
+def _del_file(file_name):
+    try:
+        os.remove(file_name)
+    except Exception as e:
+        pass

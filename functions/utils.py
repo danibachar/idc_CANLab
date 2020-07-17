@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import os
+import os, random, string
 
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
@@ -29,3 +29,8 @@ def list_all_files_in_dir(root):
             files.append(os.path.join(dirpath, filename))
 
     return files
+
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    print("Random string of length", length, "is:", result_str)
