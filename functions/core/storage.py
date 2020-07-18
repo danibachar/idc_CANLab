@@ -20,17 +20,25 @@ with open(creds_location, 'w') as fp:
   json.dump(creds, fp)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=creds_location
 
+storage.blob._MAX_MULTIPART_SIZE = 5 * 1024* 1024
 storage_client = storage.Client()
 
 def upload_file(src_file_location, dst_file_name, bucket_name="outliers", is_public=True, delete_local_file=True):
-    bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(dst_file_name)
-    blob.upload_from_filename(src_file_location)
-    if is_public:
-        blob.make_public()
-    if delete_local_file:
-        _del_file(src_file_location)
-    return blob.public_url
+    try:
+        bucket = storage_client.bucket(bucket_name)
+        blob = bucket.blob(dst_file_name)
+        blob.chunk_size = 5 * 1024 * 1024
+        blob.upload_from_filename(src_file_location)
+        if is_public:
+            blob.make_public()
+        if delete_local_file:
+            _del_file(src_file_location)
+        return blob.public_url
+    except Exception as e:
+        print(e)
+        if delete_local_file:
+            _del_file(src_file_location)
+        return ""
 
 def _del_file(file_name):
     try:

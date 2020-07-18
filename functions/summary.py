@@ -11,6 +11,10 @@ def info_dfs(dfs):
     sys.stdout = f
     for df in dfs:
         print(df.info())
+        for col in df.columns:
+            u = df[col].unique()
+            print("{} has {} unique values".format(col, len(u)))
+            print("unique value = {}".format(u))
     sys.stdout = weak_stdout
     f.close()
 
