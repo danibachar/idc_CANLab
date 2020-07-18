@@ -20,9 +20,9 @@ def info_dfs(dfs):
 def describe_dfs(dfs):
     urls = []
     for df in dfs:
-        remote, local = build_remote_and_local_file_names("descibe","txt")
-        f1, f2,f3 = local+"_object", local+"_category", local+"_numeric"
-        f4, f5, f6 = remote+"_object", remote+"_category", remote+"_numeric"
+        remote, local = build_remote_and_local_file_names("descibe","csv")
+        f1, f2,f3 = "object_"+local, "category_"+local, "numeric_"+local
+        f4, f5, f6 = "object_"+remote, "category_"+remote, "numeric_"+remote
         try:
             df.describe(include=['object']).to_csv(f1)
             urls += [upload_file(f1, f4),]

@@ -93,6 +93,6 @@ def plot_general_avg_grid(df, y_name, x_name, grid_features, width=200, height=2
 
   remote_file_name, local_file_name = build_remote_and_local_file_names("general_avg_grid","html")
   output_file(local_file_name,mode='inline')
-  local_url = save(gridplot(chunks(plots, len(groups))))
+  local_url = save(gridplot(chunks(plots, len(grid_features))))
   remote_url = upload_file(local_url, remote_file_name)
   return plots, remote_url
