@@ -25,18 +25,19 @@ def anti_join_all_cols(x, y):
     return anti_join(x, y, x.columns.tolist())
 
 
-def list_all_files_in_dir(root):
+def list_all_files_in_dir(root, filter_by_file_type = [".csv"]):
     files = []
     for (dirpath, dirnames, filenames) in os.walk(root):
         for filename in filenames:
-            files.append(os.path.join(dirpath, filename))
+            if filename.split(".")[-1] in filter_by_file_type:
+                files.append(os.path.join(dirpath, filename))
 
     return files
 
 def get_random_string(length):
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(length))
-    print("Random string of length", length, "is:", result_str)
+    return result_str
 
 
 def build_remote_and_local_file_names(prefix, file_type):

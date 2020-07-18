@@ -34,7 +34,7 @@ def upload_file(src_file_location, dst_file_name, bucket_name="outliers", is_pub
 
 def _del_file(file_name):
     try:
-        os.remove(file_name,force=True)
+        os.remove(file_name)
     except Exception as e:
         print(e)
         pass
