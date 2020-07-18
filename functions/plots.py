@@ -38,9 +38,9 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
               x_axis_label=x_name,
               y_axis_label=y_name,
             )
-            p.title.text_font_size="5px"
-            p.xaxis.axis_label_text_font_size = "5px"
-            p.yaxis.axis_label_text_font_size = "5px"
+            p.title.text_font_size="7px"
+            p.xaxis.axis_label_text_font_size = "7px"
+            p.yaxis.axis_label_text_font_size = "7px"
             p.line(x=x_name, y=y_name, source=raw_data_source)
             plots.append(p)
 
@@ -50,7 +50,7 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
   remote_url = upload_file(local_url, remote_file_name)
   return plots, remote_url
 
-def plot_general_avg(df, y_name, x_name, width=200, height=200):
+def plot_general_avg(df, y_name, x_name, width=600, height=400):
   groupd_avg = df.groupby(by=[x_name])[y_name].mean().reset_index()
   p = figure(
     plot_width=width, plot_height=height,
@@ -64,7 +64,7 @@ def plot_general_avg(df, y_name, x_name, width=200, height=200):
   remote_url = upload_file(local_url, remote_file_name)
   return p, remote_url
 
-def plot_general_avg_grid(df, y_name, x_name, grid_features, width=200, height=200):
+def plot_general_avg_grid(df, y_name, x_name, grid_features, width=400, height=400):
   plots = []
   _grid_features = grid_features.copy()
   for feature_name in _grid_features:
@@ -85,9 +85,9 @@ def plot_general_avg_grid(df, y_name, x_name, grid_features, width=200, height=2
             x_axis_label=x_name,
             y_axis_label=y_name
           )
-          p.title.text_font_size="5px"
-          p.xaxis.axis_label_text_font_size = "5px"
-          p.yaxis.axis_label_text_font_size = "5px"
+          p.title.text_font_size="7px"
+          p.xaxis.axis_label_text_font_size = "7px"
+          p.yaxis.axis_label_text_font_size = "7px"
           p.line(x=x_name, y=y_name, source=raw_data_source)
           plots.append(p)
 
