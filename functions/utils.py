@@ -25,7 +25,7 @@ def anti_join_all_cols(x, y):
     return anti_join(x, y, x.columns.tolist())
 
 
-def list_all_files_in_dir(root, filter_by_file_type = [".csv"]):
+def list_all_files_in_dir(root, filter_by_file_type = ["csv"]):
     files = []
     for (dirpath, dirnames, filenames) in os.walk(root):
         for filename in filenames:
