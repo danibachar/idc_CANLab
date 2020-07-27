@@ -22,7 +22,8 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
     group_id = groupping_col_name+"="+str(group_col.iloc[0])
     for feature_name in _grid_features:
       feature_values = g[feature_name].unique()
-      _grid_features.remove(feature_name)
+      if len(_grid_features) > 1:
+        _grid_features.remove(feature_name)
       for f_val in feature_values:
         for other_feature_name in _grid_features:
           other_feature_values = g[other_feature_name].unique()
@@ -46,7 +47,7 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
 
   remote_file_name, local_file_name = build_remote_and_local_file_names("groups_by_features","html")
   output_file(local_file_name,mode='inline')
-  local_url = save(gridplot(chunks(plots, len(groups))))
+  local_url = save(gridplot(chunks(plots, 2**len(grid_features))))
   remote_url = upload_file(local_url, remote_file_name)
   return plots, remote_url
 
@@ -69,7 +70,8 @@ def plot_general_avg_grid(df, y_name, x_name, grid_features, width=400, height=4
   _grid_features = grid_features.copy()
   for feature_name in _grid_features:
     feature_values = df[feature_name].unique()
-    _grid_features.remove(feature_name)
+    if len(_grid_features) > 1:
+      _grid_features.remove(feature_name)
     for f_val in feature_values:
       for other_feature_name in _grid_features:
         other_feature_values = df[other_feature_name].unique()
@@ -93,6 +95,6 @@ def plot_general_avg_grid(df, y_name, x_name, grid_features, width=400, height=4
 
   remote_file_name, local_file_name = build_remote_and_local_file_names("general_avg_grid","html")
   output_file(local_file_name,mode='inline')
-  local_url = save(gridplot(chunks(plots, len(grid_features))))
+  local_url = save(gridplot(chunks(plots, 2**len(grid_features))))
   remote_url = upload_file(local_url, remote_file_name)
   return plots, remote_url
