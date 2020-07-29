@@ -22,25 +22,24 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
     parsed_feature_set = set()
     group_id = groupping_col_name+"="+str(group_col.iloc[0])
     
-    for i in range(grid_features):
-        for j in range(grid_features):
-            if i == j:
-                continue
-            fkey1 = "{} X {}".format(features[i], features[j])
-            fkey2 = "{} X {}".format(features[j], features[i])
-            if fkey1 in parsed_feature_set or fkey2 in parsed_feature_set:
-                continue
-            parsed_feature_set.add(fkey1)
-            parsed_feature_set.add(fkey2)
-            
-            feature_name = features[i]
+    for i in range(len(grid_features)):
+        for j in range(len(grid_features)):
+            feature_name = grid_features[i]
             feature_values = g[feature_name].unique()
             
-            other_feature_name = features[j]
+            other_feature_name = grid_features[j]
             other_feature_values = g[other_feature_name].unique()
             
             for f_val in feature_values:
                 for of_val in other_feature_values:
+                    fkey1 = "{} X {}".format(f_val, of_val)
+                    fkey2 = "{} X {}".format(of_val, f_val)
+                    if fkey1 in parsed_feature_set or fkey2 in parsed_feature_set:
+                        print("skipping!")
+                        continue
+                    parsed_feature_set.add(fkey1)
+                    parsed_feature_set.add(fkey2)
+                
                     title = group_id + "_" + feature_name + "=" + str(f_val) + "/" + other_feature_name + "=" + str(of_val)
                     selector = (g[feature_name] == f_val) & (g[other_feature_name] == of_val)
                     gg = g[selector]
@@ -64,7 +63,6 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
 
   remote_file_name, local_file_name = build_remote_and_local_file_names("groups_by_features","html")
   output_file(local_file_name,mode='inline')
-  num_of_grids =
   local_url = save(gridplot(chunks(plots, 2**grid_count)))
   remote_url = upload_file(local_url, remote_file_name)
   return plots, remote_url
