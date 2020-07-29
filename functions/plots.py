@@ -15,39 +15,57 @@ def plots_by_group_and_features(df, groupping_col_name, y_name, x_name, grid_fea
   plots = []
   for group in groups:
     g = group[-1]
-    _grid_features = grid_features.copy()
     group_col = g[groupping_col_name]
     if len(group_col) == 0:
       continue
+      
+    parsed_feature_set = set()
     group_id = groupping_col_name+"="+str(group_col.iloc[0])
-    for feature_name in _grid_features:
-      feature_values = g[feature_name].unique()
-      if len(_grid_features) > 1:
-        _grid_features.remove(feature_name)
-      for f_val in feature_values:
-        for other_feature_name in _grid_features:
-          other_feature_values = g[other_feature_name].unique()
-          for of_val in other_feature_values:
-            title = group_id + "_" + feature_name + "=" + str(f_val) + "/" + other_feature_name + "=" + str(of_val)
-            selector = (g[feature_name] == f_val) & (g[other_feature_name] == of_val)
-            gg = g[selector]
-            y = gg.groupby(by=[x_name])[y_name].mean().reset_index()
-            raw_data_source = ColumnDataSource(y)
-            p = figure(
-              plot_width=width, plot_height=height,
-              title=title,
-              x_axis_label=x_name,
-              y_axis_label=y_name,
-            )
-            p.title.text_font_size="7px"
-            p.xaxis.axis_label_text_font_size = "7px"
-            p.yaxis.axis_label_text_font_size = "7px"
-            p.line(x=x_name, y=y_name, source=raw_data_source)
-            plots.append(p)
+    
+    for i in range(grid_features):
+        for j in range(grid_features):
+            if i == j:
+                continue
+            fkey1 = "{} X {}".format(features[i], features[j])
+            fkey2 = "{} X {}".format(features[j], features[i])
+            if fkey1 in parsed_feature_set or fkey2 in parsed_feature_set:
+                continue
+            parsed_feature_set.add(fkey1)
+            parsed_feature_set.add(fkey2)
+            
+            feature_name = features[i]
+            feature_values = g[feature_name].unique()
+            
+            other_feature_name = features[j]
+            other_feature_values = g[other_feature_name].unique()
+            
+            for f_val in feature_values:
+                for of_val in other_feature_values:
+                    title = group_id + "_" + feature_name + "=" + str(f_val) + "/" + other_feature_name + "=" + str(of_val)
+                    selector = (g[feature_name] == f_val) & (g[other_feature_name] == of_val)
+                    gg = g[selector]
+                    y = gg.groupby(by=[x_name])[y_name].mean().reset_index()
+                    raw_data_source = ColumnDataSource(y)
+                    p = figure(
+                      plot_width=width, plot_height=height,
+                      title=title,
+                      x_axis_label=x_name,
+                      y_axis_label=y_name,
+                    )
+                    p.title.text_font_size="7px"
+                    p.xaxis.axis_label_text_font_size = "7px"
+                    p.yaxis.axis_label_text_font_size = "7px"
+                    p.line(x=x_name, y=y_name, source=raw_data_source)
+                    plots.append(p)
+
+  grid_count = 0
+  for f in grid_features:
+      grid_count += len(g[feature_name].unique())
 
   remote_file_name, local_file_name = build_remote_and_local_file_names("groups_by_features","html")
   output_file(local_file_name,mode='inline')
-  local_url = save(gridplot(chunks(plots, 2**len(grid_features))))
+  num_of_grids =
+  local_url = save(gridplot(chunks(plots, 2**grid_count)))
   remote_url = upload_file(local_url, remote_file_name)
   return plots, remote_url
 
