@@ -3,6 +3,8 @@ Classic eye tracking studies using the visual world paradigm record participants
 
 This notebook is designed for Psychology research using an eye-tracking lab. The goal of this tool, is to ease the data cleaning process for a psychology research, based on an eye-tracking tool and enrich the analysis process.
 
+1. [Prerequisites](https://github.com/danibachar/idc_CANLab/wiki/Prerequisites)
+
 # Welcome to the idc_CANLab wiki!
 
 Please read and follow instructions bellow before the tutorial meeting.
