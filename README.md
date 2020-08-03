@@ -5,7 +5,7 @@ This notebook is designed for Psychology research using an eye-tracking lab. The
 
 [1. Prerequisites](https://github.com/danibachar/idc_CANLab/wiki/Prerequisites)
 
-[2. Data preprocessing notebook - installation guide](https://github.com/danibachar/idc_CANLab/wiki/Outlires-Notebook)
+[2. Data preprocessing notebook - installation guide](https://github.com/danibachar/idc_CANLab/wiki/Google-Colab-Notebook-Installation)
 
 [3. Notebook userguide](https://github.com/danibachar/idc_CANLab/wiki/User-Guide---Pre-Processing-Notebook)
 
