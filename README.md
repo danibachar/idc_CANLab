@@ -3,7 +3,13 @@ Classic eye tracking studies using the visual world paradigm record participants
 
 This notebook is designed for Psychology research using an eye-tracking lab. The goal of this tool, is to ease the data cleaning process for a psychology research, based on an eye-tracking tool and enrich the analysis process.
 
-1. [Prerequisites](https://github.com/danibachar/idc_CANLab/wiki/Prerequisites)
+[1. Prerequisites](https://github.com/danibachar/idc_CANLab/wiki/Prerequisites)
+
+[2. Data preprocessing notebook - installation guide](https://github.com/danibachar/idc_CANLab/wiki/Outlires-Notebook)
+
+[3. Notebook userguide](https://github.com/danibachar/idc_CANLab/wiki/User-Guide---Pre-Processing-Notebook)
+
+[4. Growth Curve Analysis documentation](https://github.com/danibachar/idc_CANLab/wiki/Growth-Curve-Analysis)
 
 # Welcome to the idc_CANLab wiki!
 
