@@ -14,4 +14,4 @@ This notebook is designed for Psychology research using an eye-tracking lab. The
 
 ## Delevopment notes - For Local Development
 - Install jupyter notebook 5.3 and above [link](https://jupyter.org/install)
-- `jupyter notebook Outlires_Lean.ipynb`
+- `jupyter notebook Data_Pre_Processing.ipynb`
