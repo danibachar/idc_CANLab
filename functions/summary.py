@@ -8,7 +8,7 @@ def accurecy_calculator(before_df, after_df, group_by, unique_key, features_col_
     before = before_df.copy()
     after = after_df.copy()
     res_before, res_after = {}, {}
-    df_test = pd.DataFrame({})
+    dfs = []
     def fill_res(groups, results):
         for group in groups:
           g = group[-1]
@@ -41,8 +41,7 @@ def accurecy_calculator(before_df, after_df, group_by, unique_key, features_col_
     fill_res(groups_before, res_before)
     fill_res(groups_after, res_after)
 
-    df = pd.DataFrame({})
-    urls = []
+
     for key, b in res_before.items():
         rrrr = {}
         a = res_after.get(key,{})
@@ -80,12 +79,13 @@ def accurecy_calculator(before_df, after_df, group_by, unique_key, features_col_
         rrrr["count_after"] = count_after
         rrrr["accurecy"] = accurecy
         try:
-            remote, local = build_remote_and_local_file_names("accurecy_{}".format(key),"csv")
-            pd.DataFrame(rrrr).to_csv(local)
-            urls += [upload_file(local, remote),]
+            dfs.append(pd.DataFrame(rrrr))
         except Exception as e:
             pass
-    return urls
+
+    remote, local = build_remote_and_local_file_names("accurecy","csv")
+    pd.concat(dfs).to_csv(local)
+    return upload_file(local, remote)
 
 
 def info_dfs(dfs):
