@@ -2,4 +2,4 @@ bokeh
 ipywidgets
 google-cloud-storage
 google-colab
-pandas
+pandas==1.0.5
