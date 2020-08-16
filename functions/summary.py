@@ -4,7 +4,7 @@ import pandas as pd
 from .utils import build_remote_and_local_file_names
 from .core.storage import upload_file
 
-def accurecy_calculator(before_df, after_df, group_by, unique_key, features_col_names):
+def accuracy_calculator(before_df, after_df, group_by, unique_key, features_col_names):
     before = before_df.copy()
     after = after_df.copy()
     res_before, res_after = {}, {}
@@ -47,7 +47,7 @@ def accurecy_calculator(before_df, after_df, group_by, unique_key, features_col_
         a = res_after.get(key,{})
         count_before = []
         count_after = []
-        accurecy = []
+        accuracy = []
 
         for k,v in b.items():
             if v==0:
@@ -72,18 +72,18 @@ def accurecy_calculator(before_df, after_df, group_by, unique_key, features_col_
             count_before.append(v)
             count_after.append(af)
             acc = af/v
-            accurecy.append(acc)
+            accuracy.append(acc)
 
         rrrr["participant"] = [key]*len(count_before)
         rrrr["count_before"] = count_before
         rrrr["count_after"] = count_after
-        rrrr["accurecy"] = accurecy
+        rrrr["accuracy"] = accuracy
         try:
             dfs.append(pd.DataFrame(rrrr))
         except Exception as e:
             pass
 
-    remote, local = build_remote_and_local_file_names("accurecy","csv")
+    remote, local = build_remote_and_local_file_names("accuracy","csv")
     pd.concat(dfs).to_csv(local)
     return upload_file(local, remote)
 
