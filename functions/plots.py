@@ -85,7 +85,7 @@ def _plots_array_by(df, grid_features, y_name, x_name, width, height, group_id="
 
                     title = group_id + "_" + feature_name + "=" + str(f_val) + "/" + other_feature_name + "=" + str(of_val)
                     selector = (df[feature_name] == f_val) & (df[other_feature_name] == of_val)
-                    if selector.value_counts()[True] == 0: # skipping if all values are False
+                    if selector.value_counts()[1] == 0: # skipping if all values are False
                       continue
                     gg = df[selector]
                     y = gg.groupby(by=[x_name])[y_name].mean().reset_index()
